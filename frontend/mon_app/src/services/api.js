@@ -1,12 +1,18 @@
 import axios from 'axios';
 
-// On pointe vers le port 8000 du backend
+// 🚀 Utiliser l'URL Railway en production, localhost en développement
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
+// On pointe vers le backend (Railway ou local)
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Log pour vérifier quelle URL est utilisée
+console.log('🔧 API Base URL:', API_BASE_URL);
 
 // ==================== OFFERS ====================
 
@@ -140,6 +146,32 @@ export const billetsAPI = {
       console.error("❌ Erreur lors de la récupération des billets:", error);
       throw error;
     }
+  },
+  
+  downloadPDF: async (ticketId) => {
+    try {
+      console.log('📥 Téléchargement du billet:', ticketId);
+      
+      const response = await api.get(`/api/tickets/${ticketId}/download-pdf`, {
+        responseType: 'blob' // Important pour les fichiers binaires
+      });
+      
+      // Créer un lien de téléchargement
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `billet_${ticketId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      
+      console.log('✅ PDF téléchargé avec succès');
+      return true;
+    } catch (error) {
+      console.error("❌ Erreur lors du téléchargement du PDF:", error);
+      throw error;
+    }
   }
 };
 
@@ -152,7 +184,7 @@ export const panierAPI = {
       
       if (!userId || userId === 'undefined') {
         console.error('❌ ERREUR: userId invalide', userId);
-        return []; // Retourner tableau vide au lieu de throw
+        return [];
       }
       
       const response = await api.get(`/api/panier/user/${userId}`);
@@ -160,7 +192,7 @@ export const panierAPI = {
       return response.data;
     } catch (error) {
       console.error("❌ Erreur lors de la récupération du panier:", error);
-      return []; // Retourner tableau vide en cas d'erreur
+      return [];
     }
   },
   
