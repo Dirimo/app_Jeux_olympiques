@@ -1,4 +1,4 @@
-// frontend/src/pages/Profil.jsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -73,7 +73,8 @@ export default function Profil() {
       
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:8000/api/tickets/${billetId}/download-pdf`, {
+      const response = await 
+      fetch(`${process.env.REACT_APP_API_URL}/api/tickets/${billetId}/download-pdf`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
