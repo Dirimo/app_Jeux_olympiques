@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel
 from app.db.session import engine
 from app.api.endpoints import router as api_router
+from app.api.routes import admin
 
 # Import des modèles EXISTANTS pour créer les tables
 from app.models.user import User
