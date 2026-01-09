@@ -54,6 +54,7 @@ app.include_router(auth.router)      # /api/auth/register, /api/auth/login
 app.include_router(sports.router)    # /api/sports, /api/sports/{slug}
 app.include_router(panier.router)    # /api/panier/user/{user_id}
 app.include_router(tickets.router)   # /api/tickets/user/{user_id}
+app.include_router(admin.router)     # /api/admin/init_data
 
 @app.get("/")
 def read_root():
