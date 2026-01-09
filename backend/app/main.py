@@ -28,6 +28,7 @@ app = FastAPI(title="Olympic Ticketing API - Paris 2024")
 origins = [
     "http://localhost:5173",  # Port Vite
     "http://localhost:3000",  # Port React (Create React App)
+    "https://appjeuxolympiques-production.up.railway.app" # URL de production du Frontend
 ]
 
 app.add_middleware(
