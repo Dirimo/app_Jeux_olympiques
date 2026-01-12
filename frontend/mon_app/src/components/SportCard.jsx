@@ -1,5 +1,15 @@
 import { Link } from 'react-router-dom';
 
+// Mapping des images locales
+const sportImages = {
+  'athletisme': '/images/Athletisme.jpg',
+  'natation': '/images/Natation.jpg',
+  'bmx': '/images/Bmx.jpg',
+  'boxe': '/images/Boxe.jpg',
+  'gymnastique': '/images/Gymnastique.jpg',
+  'escalade': '/images/Escalade.jpg',
+};
+
 export default function SportCard({ sport }) {
   return (
     <Link 
@@ -9,9 +19,12 @@ export default function SportCard({ sport }) {
       {/* Image */}
       <div className="relative h-64 overflow-hidden">
         <img 
-          src={sport.image_url} 
+          src={sportImages[sport.slug] || sport.image_url}
           alt={sport.nom}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          onError={(e) => {
+            e.target.src = 'https://via.placeholder.com/400x300/0066FF/FFFFFF?text=' + sport.nom;
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         

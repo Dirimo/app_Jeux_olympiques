@@ -2,15 +2,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 const Home = () => {
   const sports = [
-    { nom: 'Athlétisme', slug: 'athletisme', color: 'bg-orange-500', emoji: '🏃‍♂️' },
-    { nom: 'Natation', slug: 'natation', color: 'bg-blue-500', emoji: '🏊‍♂️' },
-    { nom: 'BMX', slug: 'bmx', color: 'bg-yellow-500', emoji: '🚴‍♀️' },
-    { nom: 'Boxe', slug: 'boxe', color: 'bg-red-500', emoji: '🥊' },
-    { nom: 'Gymnastique', slug: 'gymnastique', color: 'bg-pink-500', emoji: '🤸‍♀️' },
-    { nom: 'Escalade', slug: 'escalade', color: 'bg-green-500', emoji: '🧗‍♂️' },
+    { nom: 'Athlétisme', slug: 'athletisme', color: 'bg-orange-500', image: '/images/Athletisme.jpg' },
+    { nom: 'Natation', slug: 'natation', color: 'bg-blue-500', image: '/images/Natation.jpg' },
+    { nom: 'BMX', slug: 'bmx', color: 'bg-yellow-500', image: '/images/Bmx.jpg' },
+    { nom: 'Boxe', slug: 'boxe', color: 'bg-red-500', image: '/images/Boxe.jpg' },
+    { nom: 'Gymnastique', slug: 'gymnastique', color: 'bg-pink-500', image: '/images/Gymnastique.jpg' },
+    { nom: 'Escalade', slug: 'escalade', color: 'bg-green-500', image: '/images/Escalade.jpg' },
   ];
+
 
   return (
     <div className="min-h-screen bg-[#0066FF] relative overflow-hidden">
@@ -31,6 +33,7 @@ const Home = () => {
           ))}
         </div>
 
+
         {/* Texte principal ultra-bold */}
         <div className="text-center relative z-10">
           <h1 className="font-black text-white leading-none mb-8" style={{fontSize: 'clamp(4rem, 15vw, 12rem)'}}>
@@ -47,6 +50,7 @@ const Home = () => {
           <p className="text-white text-2xl md:text-3xl font-bold mb-12 max-w-3xl mx-auto">
             26 juillet - 11 août 2024 • Paris
           </p>
+
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -65,6 +69,7 @@ const Home = () => {
           </div>
         </div>
 
+
         {/* Illustration anneaux olympiques stylisés (côté) */}
         <div className="hidden lg:block absolute right-20 top-1/2 -translate-y-1/2">
           <svg width="300" height="200" viewBox="0 0 300 200" className="opacity-30">
@@ -77,7 +82,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Section Sports - Cards colorées */}
+
+      {/* Section Sports - Cards colorées avec IMAGES */}
       <section className="bg-white rounded-t-[80px] py-20 px-8">
         <div className="max-w-7xl mx-auto">
           {/* En-tête section */}
@@ -95,31 +101,45 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Grille de sports avec LIENS */}
+
+          {/* Grille de sports avec IMAGES */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {sports.map((sport, index) => (
               <div
                 key={index}
-                className={`${sport.color} rounded-3xl p-8 text-white hover:scale-105 transition-transform shadow-xl`}
+                className={`${sport.color} rounded-3xl overflow-hidden text-white hover:scale-105 transition-transform shadow-xl relative`}
               >
-                <div className="text-7xl mb-4">{sport.emoji}</div>
-                <h3 className="font-black text-3xl mb-4">{sport.nom}</h3>
-                <p className="text-white/90 mb-6 font-medium">
-                  Assistez aux performances exceptionnelles de nos athlètes dans cette discipline olympique.
-                </p>
+                {/* Image en arrière-plan avec overlay */}
+                <div className="absolute inset-0">
+                  <img 
+                    src={sport.image} 
+                    alt={sport.nom}
+                    className="w-full h-full object-cover opacity-30"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                </div>
                 
-                {/* Bouton avec lien vers /sport/{slug} */}
-                <Link
-                  to={`/sport/${sport.slug}`}
-                  className="inline-block bg-white/20 backdrop-blur-sm border-2 border-white text-white font-bold px-6 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-all"
-                >
-                  En savoir plus →
-                </Link>
+                {/* Contenu par-dessus l'image */}
+                <div className="relative z-10 p-8">
+                  <h3 className="font-black text-3xl mb-4">{sport.nom}</h3>
+                  <p className="text-white/90 mb-6 font-medium">
+                    Assistez aux performances exceptionnelles de nos athlètes dans cette discipline olympique.
+                  </p>
+                  
+                  {/* Bouton avec lien vers /sport/{slug} */}
+                  <Link
+                    to={`/sport/${sport.slug}`}
+                    className="inline-block bg-white/20 backdrop-blur-sm border-2 border-white text-white font-bold px-6 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-all"
+                  >
+                    En savoir plus →
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* Section CTA finale */}
       <section className="bg-white py-20 px-8">
@@ -150,5 +170,5 @@ const Home = () => {
   );
 };
 
+
 export default Home;
-            

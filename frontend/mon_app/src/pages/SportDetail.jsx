@@ -1,8 +1,18 @@
-// src/pages/SportDetail.jsx
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { sportsAPI, panierAPI, getOffers } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+
+// ✅ AJOUT : Mapping des images locales
+const sportImages = {
+  'athletisme': '/images/Athletisme.jpg',
+  'natation': '/images/Natation.jpg',
+  'bmx': '/images/Bmx.jpg',
+  'boxe': '/images/Boxe.jpg',
+  'gymnastique': '/images/Gymnastique.jpg',
+  'escalade': '/images/Escalade.jpg',
+};
 
 export default function SportDetail() {
   const { slug } = useParams();
@@ -17,6 +27,7 @@ export default function SportDetail() {
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     loadSportData();
     loadOffers();
@@ -107,7 +118,7 @@ export default function SportDetail() {
       {/* Hero Section */}
       <div className="relative h-96">
         <img 
-          src={sport.image_url} 
+          src={sportImages[slug] || sport.image_url}  
           alt={sport.nom}
           className="w-full h-full object-cover"
           onError={(e) => {
