@@ -2,10 +2,29 @@ from fastapi import APIRouter
 from app.db.session import Session, engine
 from app.models.sport import Sport, Epreuve
 from app.models.offer import Offer
-from sqlmodel import select
+from sqlmodel import select, delete
 from datetime import date, time
 
+
 router = APIRouter(prefix="/api/admin", tags=["admin"])
+
+
+@router.get("/reset_data")
+def reset_data():
+    """Supprime toutes les données (sports, épreuves, offres)"""
+    
+    with Session(engine) as session:
+        # Supprimer dans l'ordre (épreuves d'abord à cause des clés étrangères)
+        session.exec(delete(Epreuve))
+        session.exec(delete(Sport))
+        session.exec(delete(Offer))
+        
+        session.commit()
+        
+        return {
+            "status": "success", 
+            "message": "Toutes les données ont été supprimées. Appelez /api/admin/init_data pour réinitialiser."
+        }
 
 
 @router.get("/init_data") 
